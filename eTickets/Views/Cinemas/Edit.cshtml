@@ -1,13 +1,13 @@
 ﻿@model Cinema
 
 @{
-    ViewData["Title"] = "Update Cinema";
+    ViewData["Title"] = "Update cinema";
 }
 
 <div class="row text">
     <div class="col-md-8 offset-2">
         <p>
-            <h1>Update Cinema</h1>
+            <h1>Update cinema</h1>
         </p>
         <div class="row">
             <div class="col-md-8 offset-2">
@@ -15,7 +15,7 @@
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                     <div class="form-group text-center">
-                        <img class="border-info rounded-circle" style="max-width: 150px" id="CinemaLogoPreview" />
+                        <img id="CinemaLogoPreview"  class="border-info rounded-circle" style="max-width: 150px" />
                     </div>
                     <div class="form-group">
                         <label asp-for="Logo" class="control-label"></label>
@@ -34,7 +34,7 @@
                     </div>
 
                     <div class="form-group">
-                        <input type="submit" value="Edit" class="btn btn-outline-success float-right" />
+                        <input type="submit" value="Update" class="btn btn-outline-success float-right" />
                         <a class="btn btn-outline-secondary" asp-action="Index">Show All</a>
                     </div>
                 </form>
@@ -45,10 +45,12 @@
 
 @section Scripts{ 
     <script>
+
         $(document).ready(function () {
             var output = document.getElementById('CinemaLogoPreview');
             output.src = $("#Logo").val();
         })
+
         $("#Logo").on("change", function () {
             var output = document.getElementById('CinemaLogoPreview');
             output.src = $(this).val();

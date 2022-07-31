@@ -1,9 +1,11 @@
 ﻿using eTickets.Data;
 using eTickets.Data.Services;
 using eTickets.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace eTickets.Controllers
@@ -20,9 +22,9 @@ namespace eTickets.Controllers
         public async Task<IActionResult> Index()
         {
             var allCinemas = await _service.GetAllAsync();
-
             return View(allCinemas);
         }
+
 
         //Get: Cinemas/Create
         public IActionResult Create()
@@ -31,14 +33,14 @@ namespace eTickets.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([Bind("Logo,Name,Description")] Cinema cinema)
+        public async Task<IActionResult> Create([Bind("Logo,Name,Description")]Cinema cinema)
         {
             if (!ModelState.IsValid) return View(cinema);
             await _service.AddAsync(cinema);
             return RedirectToAction(nameof(Index));
         }
 
-        [AllowAnonymous]
+        //Get: Cinemas/Details/1
         public async Task<IActionResult> Details(int id)
         {
             var cinemaDetails = await _service.GetByIdAsync(id);
@@ -46,6 +48,7 @@ namespace eTickets.Controllers
             return View(cinemaDetails);
         }
 
+        //Get: Cinemas/Edit/1
         public async Task<IActionResult> Edit(int id)
         {
             var cinemaDetails = await _service.GetByIdAsync(id);
@@ -61,18 +64,19 @@ namespace eTickets.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        //Get: Cinemas/Delete/1
         public async Task<IActionResult> Delete(int id)
         {
-            var cinemaDelete = await _service.GetByIdAsync(id);
-            if (cinemaDelete == null) return View("NotFound");
-            return View(cinemaDelete);
+            var cinemaDetails = await _service.GetByIdAsync(id);
+            if (cinemaDetails == null) return View("NotFound");
+            return View(cinemaDetails);
         }
 
         [HttpPost, ActionName("Delete")]
         public async Task<IActionResult> DeleteConfirm(int id)
         {
-            var cinemaDelete = await _service.GetByIdAsync(id);
-            if (cinemaDelete == null) return View("NotFound");
+            var cinemaDetails = await _service.GetByIdAsync(id);
+            if (cinemaDetails == null) return View("NotFound");
 
             await _service.DeleteAsync(id);
             return RedirectToAction(nameof(Index));
